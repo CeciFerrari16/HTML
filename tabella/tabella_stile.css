@@ -1,0 +1,6 @@
+table, td, th{border: 2px dashed rgb(170, 163, 154);
+				border-collapse:collapse}
+/*td, th{padding: 5px 10px}*/
+td{font-size:32px}
+td.odd{background: #f5e618} /*righe chiamate dispari*/
+td.even{background: #001aff}
