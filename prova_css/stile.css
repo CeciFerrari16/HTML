@@ -1,0 +1,8 @@
+table, td, th{border: 1px solid #000;
+				border-collapse:collapse}
+td, th{padding: 5px 10px}
+
+tr.odd{background: #edc35a} /*righe chiamate dispari*/
+tr.even{background: #e6a340}
+th{background:#e06d53}
+/*tr.title{background:#e06d53}*/
