@@ -1,0 +1,26 @@
+<HTML>
+	<HEAD>
+		<STYLE>
+			img{height:60%;
+				width:42%}
+			body{text-align: center}
+		</STYLE>
+		<SCRIPT>
+			function switchImg1(){
+				var NuovaImg = "disastergirl.jfif"
+				document.getElementById("title").innerHTML = "oh no...";
+				//tutto ciò che sta tra l'apertura o la chiusura del tag di HTM
+				document.getElementById("casa").src = NuovaImg;
+			}
+			function switchImg2(){
+				var NuovaImg = "casa.jpg"
+				document.getElementById("title").innerHTML = "villa vacanze molto bella";
+				document.getElementById("casa").src = NuovaImg;
+			}
+		</SCRIPT>
+	</HEAD>
+	<BODY>
+		<H1 id = "title" > villa vacanze molto bella </H1>
+		<IMG src = "casa.jpg" id = "casa" onmouseover = "switchImg1();" onmouseout = "switchImg2();"/>
+	</BODY>
+</HTML>

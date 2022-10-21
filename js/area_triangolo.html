@@ -1,0 +1,22 @@
+<HTML>
+	<HEAD>
+		<SCRIPT>
+			function area(){
+				base = Number(document.getElementById("txtbase").value);
+				altezza = Number(document.getElementById("txtaltezza").value);
+				area = (base*altezza)/2;
+				document.getElementById("txtarea").value = area;
+			}
+		</SCRIPT>
+	</HEAD>
+	<BODY>
+		<H1> Programma per calcolare l'area del triangolo </H1>
+		base: <INPUT type = "number" id = "txtbase"/>
+		<BR><BR>
+		altezza: <INPUT type = "number" id = "txtaltezza"/>
+		<BR><BR>
+		<INPUT type="button" value="CALCOLA AREA" onclick = "area();"/>
+		<BR><BR>
+		area: <INPUT type = "number" id = "txtarea"/>
+	</BODY>
+</HTML>

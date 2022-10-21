@@ -1,0 +1,46 @@
+<HTML>
+	<HEAD>
+		<SCRIPT>
+			// variabile di input
+			var imdollaro;
+			// variabile di output
+			var imeuro;
+			function check(num){
+				if (num%3 == 0){
+					im1 = Math.round(num * 100);
+					im2 = im1 / 100;
+					return im2
+				}
+			}
+			function daDaE(){
+				const CONVERS = 1.01;
+				imdollaro = document.getElementById("txtDollari").value;
+				imeuro = imdollaro * CONVERS;
+				imeuro = imeuro.toFixed(2);
+				//alert(imeuro);
+				//scrittura risultati in output
+				document.getElementById("txtEuro").value = imeuro;
+			}
+			function daEaD(){
+				const CONVERS = 0.93;
+				imeuro = document.getElementById("txtEuro").value;
+				imdollaro = imeuro * CONVERS;
+				imdollaro.toFixed(2);
+				//alert(imdollaro);
+				document.getElementById("txtDollari").value = imdollaro;
+			}
+		</SCRIPT>
+	</HEAD>
+	<BODY>
+		<FORM>
+		<FIELDSET> <LEGEND> CONVERTITORE DI VALUTA </LEGEND>
+			Dollari: <INPUT type = "number" id = "txtDollari"/>
+			Euro: <INPUT type = "number" id = "txtEuro" />
+			<BR><BR>
+			<INPUT type="button" value="Da $ a euro" onclick = "daDaE();"/>
+			<INPUT type="button" value="Da euro a $" onclick = "daEaD();"/>
+			<BR>
+		</FIELDSET>
+		</FORM>
+	</BODY>
+</HTML>
