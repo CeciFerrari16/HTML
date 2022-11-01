@@ -1,0 +1,64 @@
+<HTML>
+    <HEAD>
+        <SCRIPT>
+            const NUM = 2;
+            var nome = Array();
+            var cognome = Array();
+            var punti = Array();
+            var ricezioni = Array();
+
+            function inserisciDati(){
+                for(var i = 0; i < NUM; i++){
+                    nome[i] = prompt("Qual è il nome del giocatore?");
+                    cognome[i] = prompt("Qual è il cognome del giocatore?");
+                    punti[i] = prompt("Quanti punti totali ha fatto il giocatore?");
+                    ricezioni[i] = prompt("Quante ricezioni ha compiuto?");
+                }
+            }
+
+            function visualizzaDati(){
+                var output = Array();
+                var output0 = "";
+                for(var i = 0; i < NUM; i++){
+                    output[i] = " " + nome[i] + " " + cognome[i] + " p:" + punti[i] + " r:" + ricezioni[i];
+                    output0 += output[i];
+                }
+                document.getElementById("output").value = output0;
+            }
+            function maxPunti(){
+                var max = 0;
+                var maxi = 0;
+                for(var i = 0; i < NUM; i++){
+                    if(parseInt(punti[i]) >= parseInt(max)){
+                        max = punti[i];
+                        maxi = i;
+                    }
+                }
+                alert(nome[maxi] + " " + cognome[maxi]);
+
+            }
+            function maxRicezioni(){
+                var max = 0;
+                var maxi = 0;
+                for(var i = 0; i < NUM; i++){
+                    if(parseInt(ricezioni[i]) >= parseInt(max)){
+                        max = ricezioni[i];
+                        maxi = i;
+                    }
+                }
+                alert(nome[maxi] + " " + cognome[maxi]);
+            }
+        </SCRIPT>
+    </HEAD>
+    <BODY>
+        <FORM>
+            <FIELDSET>
+                <INPUT type = "button" value = "Inserisci" onclick = "inserisciDati();" />
+                <INPUT type = "button" value = "Visualizza" onclick = "visualizzaDati();" /> <BR> <BR>
+                <INPUT type = "button" value = "Max Punti" onclick = "maxPunti();" /> 
+                <INPUT type = "button" value = "Max Ricezioni" onclick = "maxRicezioni();" /> <BR> <BR>
+                <INPUT type = "textarea" id = "output" />
+            </FIELDSET>
+        </FORM>
+    </BODY>
+</HTML>
