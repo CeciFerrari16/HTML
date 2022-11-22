@@ -1,0 +1,77 @@
+<html>
+    <script>
+        let count = 0;
+        let records = Array();
+        let nomi = Array();
+        let t = 5;
+        let max, min;
+
+        function counter(){
+            count += 1;
+        }
+
+        const pulisci = () => {
+            document.getElementById("lista_numeri").innerHTML = "";
+            records = [];
+        }
+
+        setInterval(() => {
+            document.getElementById("tempo").value = "Mancano " + t + " secondi alla fine";
+            t -= 1;
+            document.getElementById("arr").value = records;
+        }, 1000)
+
+        setInterval(() => {
+            document.getElementById("tcount").value = count;
+        }, 500)
+
+        setInterval(() => {
+            if((records.indexOf(count) == -1) && count != 0){
+                records.sort();
+                if(count > records[records.length - 1]){
+                    alert("CONGRATULAZIONI! Nuovo punteggio!");
+                    check = 1; 
+                }
+                records.push(count);
+                records.sort(); // ordinati dal più piccolo al più grande
+
+                if(records.length >= 4){
+                    document.getElementById("lista_numeri").innerHTML = "";
+                    
+                    if(count >= records[0]){//tolgo quello minore
+                        records.shift();
+                    }else{
+                        records.pop();//tolgo il numero aggiunto
+                    }
+                    //records.sort();
+                    records.reverse(); //classifica
+                    for(let i = 0; i < records.length; i++){
+                        document.getElementById("lista_numeri").innerHTML += `<li> ${records[i]} </li>`;
+                    }
+                }else{
+                    document.getElementById("lista_numeri").innerHTML = "";
+                    records.reverse();
+                    for(let i = 0; i < records.length; i++){
+                        document.getElementById("lista_numeri").innerHTML += `<li> ${records[i]} </li>`;
+                    }
+                }
+            }
+            count = 0;
+            t = 5;
+        }, 5000);
+        
+    </script>
+    <body>
+        <h1> Il gioco del click </h1>
+        <input type="button" value="CLICK" onclick="counter();"/>
+        <button onClick="pulisci()"> PULISCI </button> <!-- creare un bottone -->
+        <input type = "textarea" id = "tempo" />
+        <input type = "textarea" id = "arr" />
+        <input type = "textarea" id = "tcount" />
+
+        <h2> TOP 3 punteggi: </h2>
+
+        <ul id="lista_numeri">
+        </ul>
+    </body>
+</html>
