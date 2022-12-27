@@ -1,0 +1,24 @@
+<HTML>
+    <HEAD>
+        <SCRIPT>
+            let arr = [4,2,5,3];
+            //filter restituisce un array contenente solo i valori che rispettano una certa condizione
+            let max = arr.filter(e => e > arr.indexOf(e)) // 4,2,5
+            
+            max.forEach((e) => {
+                alert(e);
+            })
+
+            alert("Secondo Array");
+            //map modifica l'array di partenza e restituisce l'array modificato
+            let m = arr.map((e,i) => e*i) //0,2,10,9
+
+            m.forEach(e => alert(e))
+            
+            //teoria:https://javascript.info/array-methods
+	    </SCRIPT>
+    </HEAD>
+
+	<BODY>	
+	</BODY>
+</HTML>

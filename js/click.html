@@ -13,6 +13,51 @@
         const pulisci = () => {
             document.getElementById("lista_numeri").innerHTML = "";
             records = [];
+            nomi = [];
+        }
+
+        function Ordina(){
+            if((records.indexOf(count) == -1) && count != 0){
+                records.sort();
+                nomi.reverse();
+                if(count > records[records.length - 1]){
+                    alert("CONGRATULAZIONI! Nuovo punteggio!");
+                }
+                records.push(count);
+                records.sort(); // ordinati dal più piccolo al più grande
+
+                let newname;
+                newname = prompt("Chi ha segnato il nuovo record?");
+                nomi.splice(records.indexOf(count),records.indexOf(count) + 1, newname);
+                check = 0; 
+
+                if(records.length == 4){
+                    document.getElementById("lista_numeri").innerHTML = "";
+                    
+                    if(count >= records[0]){//tolgo quello minore
+                        records.shift();
+                        nomi.shift();
+                    }else{
+                        records.pop();//tolgo il numero aggiunto
+                        nomi.pop();
+                    }
+                    
+                    records.reverse(); //classifica
+                    nomi.reverse();
+                    for(let i = 0; i < records.length; i++){
+                        document.getElementById("lista_numeri").innerHTML += `<li> ${records[i]} - ${nomi[i]} </li>`;
+                    }
+                }else{
+                    document.getElementById("lista_numeri").innerHTML = "";
+                    records.reverse();
+                    nomi.reverse();
+                    for(let i = 0; i < records.length; i++){
+                        document.getElementById("lista_numeri").innerHTML += `<li> ${records[i]} - ${nomi[i]} </li>`;
+                    }
+                }
+            }
+            count = 0;
+            t = 5;
         }
 
         setInterval(() => {
@@ -25,40 +70,7 @@
             document.getElementById("tcount").value = count;
         }, 500)
 
-        setInterval(() => {
-            if((records.indexOf(count) == -1) && count != 0){
-                records.sort();
-                if(count > records[records.length - 1]){
-                    alert("CONGRATULAZIONI! Nuovo punteggio!");
-                    check = 1; 
-                }
-                records.push(count);
-                records.sort(); // ordinati dal più piccolo al più grande
-
-                if(records.length >= 4){
-                    document.getElementById("lista_numeri").innerHTML = "";
-                    
-                    if(count >= records[0]){//tolgo quello minore
-                        records.shift();
-                    }else{
-                        records.pop();//tolgo il numero aggiunto
-                    }
-                    //records.sort();
-                    records.reverse(); //classifica
-                    for(let i = 0; i < records.length; i++){
-                        document.getElementById("lista_numeri").innerHTML += `<li> ${records[i]} </li>`;
-                    }
-                }else{
-                    document.getElementById("lista_numeri").innerHTML = "";
-                    records.reverse();
-                    for(let i = 0; i < records.length; i++){
-                        document.getElementById("lista_numeri").innerHTML += `<li> ${records[i]} </li>`;
-                    }
-                }
-            }
-            count = 0;
-            t = 5;
-        }, 5000);
+        setInterval(Ordina, 5000);
         
     </script>
     <body>

@@ -1,0 +1,51 @@
+<HTML>
+    <HEAD>
+        <SCRIPT>
+            /*L'agenzia di viaggi "viaggia con noi !"
+            propone il seguente preventivo di spesa per una gita scolastica:
+                        - una quota fissa pari a 35 euro
+                        - una quota variabile in base ai km pari a 0.57 euro
+                        per ogni km
+                        - una quota variabile in base al numero di persone:
+                        -- fino a 30 partecipanti (estremi inclusi): 12 euro a persona
+                        -- da 31 a 40 partecipanti (estremi inclusi): 9 euro a persona
+                            per tutti i partecipanti
+                        -- piu' di 41 partecipanti (estremi inclusi): quota fissa pari a 410  
+                            euro
+            scrivere una funzione JS che legga i dati necessari e calcoli il preventivo per la gita*/
+
+            function preventivo(){
+                const fissa = 35;
+                //let km = 0, num_pers = 0;
+                let quota_km, quota_pers, prev;
+                
+                let km = prompt("Quanti km previsti?");
+                let num_pers = prompt("Quante persone sono previste?");
+
+                quota_km = 0.57 * km
+
+                if(num_pers <= 30){
+                    quota_pers = 12 * num_pers;
+                }else if(num_pers > 31 && num_pers <= 40){
+                    quota_pers = 9 * num_pers;
+                }else if(num_pers > 41){
+                    quota_pers = 410;
+                }else{
+                    alert("Il valore non è valido");
+                }
+
+                prev = fissa + quota_km + quota_pers;
+                let mess = "Il preventivo per la gita è €" + prev;
+                alert(mess);
+            }
+
+            preventivo();
+	    </SCRIPT>
+    </HEAD>
+
+	<BODY>	
+	</BODY>
+</HTML>
+
+
+

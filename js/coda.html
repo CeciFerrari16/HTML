@@ -1,0 +1,44 @@
+<HTML>
+	<HEAD>
+		<SCRIPT>
+            let coda = Array();
+            let code;
+            let nome = "";
+
+            //coda = ["Giada", "Caterina", "Giovanni"];
+
+            const generaHTML = () => {
+                code = "";
+                for(let e of coda){
+                    code += `<li> ${e} </li>`; 
+                }
+                document.getElementById("lista").innerHTML = code;
+                document.getElementById("prova").value = code;
+            }
+
+            function prossimo(){
+                nome = coda.shift();
+                document.getElementById("txtprossimo").value = nome;
+            }
+            
+            function prenota(){
+                nome = document.getElementById("txtprenota").value;
+                coda.push(nome);
+                document.getElementById("txtprenota").value = "";
+            }
+
+            setInterval(generaHTML, 1000);
+
+		</SCRIPT>
+	</HEAD>
+	<BODY>
+        <INPUT type = "text" id = "txtprenota"/>
+		<INPUT type = "BUTTON" value = "PRENOTA" onclick = "prenota();"/>
+        <BR><BR>
+        <INPUT type = "text" id = "txtprossimo"/>
+        <INPUT type = "BUTTON" value = "PROSSIMO" onclick = "prossimo();"/>
+        <BR><BR>
+        <ul id = "lista">
+        </ul>
+	</BODY>
+</HTML>

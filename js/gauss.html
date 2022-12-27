@@ -1,0 +1,26 @@
+<html>
+    <script>
+        let n = 0, sum1 = 0, sum2 = 0, mess;
+
+        function calcola(){
+            do{
+                n = +prompt("Scrivi un numero intero:"); //attenta a convertirlo a number
+            }while(n <= 0);
+
+            for(let i = 0; i <= n; i++){
+                sum1 += i;
+            }
+
+            mess = "La somma e' " + sum1;
+            alert(mess);
+            
+            sum2 = n*(n+1)/2;
+            mess = "La somma e' " + sum2;
+            alert(mess);
+        }
+    </script>
+    <body>
+        <h1> Verifica della legge di Gauss </h1>
+        <input type="button" value="CLICK" onclick="calcola();"/>
+    </body>
+</html>
