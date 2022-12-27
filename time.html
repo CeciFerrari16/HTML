@@ -1,0 +1,28 @@
+<HTML>
+	<SCRIPT>
+		let ore, min, sec;
+		let secRim;
+		const SecToMin = 60;
+		const SecToH = 3600;
+
+		function tempo(){
+			ore = Number(prompt("Inserire le ore:", 7)); // default proposto 7
+			min = Number(prompt("Inserire le minuti:"));
+			sec = Number(prompt("Inserire le secondi:"));
+
+			let tempo = (ore*SecToH) + (min*SecToMin) + sec;
+			alert(tempo + " secondi");
+			//un valore booleano in base al 
+			//pulsante premuto dall'utente
+			let risposta = confirm("Ti è piaciuto questo programma ?");
+			if (risposta)
+				alert("ottimo")
+			else
+				alert("mi spiace !")
+		}
+	
+	</SCRIPT>
+	<BODY>
+		<INPUT type = "BUTTON" value = "Calcola" onclick = "tempo();"/>
+	</BODY>
+</HTML>

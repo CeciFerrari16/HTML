@@ -1,0 +1,27 @@
+<HTML>
+    <HEAD>
+        <SCRIPT>
+            //riceve in input una variabile intera e restituisce il suo valore assoluto
+            // elevamento a potenza è **
+            function valoreassoluto(x){
+                //let x = Number(prompt("Inserisci un valore:"));
+                if(x < 0){
+                    return -x;
+                }else{
+                    return x;
+                }
+            }
+
+            function calcola(){
+                let x = prompt("Inserisci un valore:");
+                alert(typeof(x) + x); //capisce che è un'operatore unario
+                let v = valoreassoluto(x);
+                alert("valore assoluto"+ v);
+            }
+	    </SCRIPT>
+    </HEAD>
+
+	<BODY>
+		<INPUT type = "BUTTON" value = "Calcola" onclick = "calcola();"/>
+	</BODY>
+</HTML>
