@@ -1,0 +1,40 @@
+<HTML>
+	<HEAD>
+		<SCRIPT>
+			let n = 3;
+			let index = 1;
+
+			function switchdx(){
+				if(index == n){
+					index = 1;
+				}else{
+					index++;
+				}
+				document.getElementById("block").src = "img" + index + ".jpg";
+			}
+			function switchsx(){
+				switch(index){
+					case 1:
+						index = 3;
+						break;
+					case 2:
+						index = 1;
+						break;
+					case 3:
+						index = 2;
+						break;
+				}
+				document.getElementById("block").src = "img" + index + ".jpg";
+			}
+			
+		</SCRIPT>
+	</HEAD>
+	<CENTER>
+	<BODY>
+		<H1 id = "title"> Slider di immagini :) </H1>
+		<IMG src = "fr_sx.jpg" id = "sx" height="100" width="100" onclick = "switchsx();" />
+		<IMG src = "img1.jpg" id = "block" height="500" width="700"/>
+		<IMG src = "fr_dx.jpg" id = "dx" height="100" width="100" onclick = "switchdx();" />
+	</BODY>
+	</CENTER>
+</HTML>
