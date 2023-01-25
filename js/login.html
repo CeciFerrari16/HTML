@@ -1,0 +1,124 @@
+<!-- 
+    STEP 1:
+    Creare una pagina web che contenga:
+        - 1 input di tipo testo
+        - 1 input di tipo password
+        - 1 bottone con scritto SIGNUP: quando viene premuto dovranno essere recuperati i dati inseriti nei campi di testo e salvati. Dopodiché dare feedback all'utente (es. "Registrazione avvenuta con successo"). NB: non è possibile registrarsi due volte
+        - 1 Bottone con scritto LOGIN: quando viene premuto dovranno essere recuperati i dati inseriti nei campi di testo e confrontati con quelli salvati. Se corrispondono dare feedback all'utente (es. "Login avvenuto con successo"), altrimenti dare feedback (es. "Login fallito")
+        - 1 bottone con scritto RESET: quando viene premuto dovranno essere resettati i campi di input e dovrà essere svuotata la lista delle credenziali
+
+    STEP 2 (più semplice):
+        Quando un utente fa il login, mostrare l'orario dell'ultimo accesso effettuato, se è la prima volta che fa il login, visualizzare "Nessun accesso effettuato"
+        
+    STEP 2 (più complicato)
+        Per ogni registrato, dovrà essere visualizzato in una lista nella pagina (ul, li) l'orario dell'ultimo accesso effettuato (in caso di nessun accesso, visualizzare "Nessun accesso effettuato")
+
+-->
+<html>
+    <head>
+        <title>19_01_2023.html</title>
+        <script>
+            // declaring lists to store credentials
+            let user = []; //nomi
+            let cred = []; //password
+            let orario = []; //ultimo accesso
+
+            const reset = () => {
+                document.getElementById("username").value = "";
+                document.getElementById("password").value = "";
+                document.getElementById("access-list").innerHTML = "";
+                cred = [];
+                user = [];
+                orario = [];
+            }
+
+            const getUsernameIndex = (username) => {
+                // return the index of the username in the usernames list
+                return user.indexOf(username);
+            }
+
+            const signup = () => {
+                let name = document.getElementById("username").value;
+                let pass = document.getElementById("password").value;
+
+                // check if the username is already registered (hint: use getUsernameIndex function)
+                if (user.indexOf(name) != -1 && cred.indexOf(pass) != -1){
+                    alert("Credenziali già presenti");
+                } else {
+                    user.push(name);
+                    cred.push(pass);
+                    orario.push("Nessun accesso effettuato");
+                    
+                    alert("Registrazione avvenuta con successo");
+                }
+                alert(user);
+                alert(cred);
+                updateAccessList();
+                //document.getElementById("username").value = "";
+                //document.getElementById("password").value = "";
+            }
+        
+            function login() {
+                let name = document.getElementById("username").value;
+                let pass = document.getElementById("password").value;
+                let index = getUsernameIndex(name);
+                let bool = false;
+                let data = new Date;
+        
+                // check if the entered credentials match with the signup credentials
+                if (user.indexOf(name) != -1 && cred.indexOf(pass) != -1 && index == cred.indexOf(pass)){
+                    alert("Login effettuato con successo");
+                    bool = true;
+                } else {
+                    alert("Login fallito");
+                }
+            
+                if(bool == true) {
+                    // update the last access time
+                    orario[user.indexOf(name)] = `${data.getHours()}:${data.getMinutes()}`;
+
+                    // show success message
+                    alert("Orario aggiornato");
+                } else {
+                    //show error message
+                    alert("Errore orario");
+                }
+                updateAccessList();
+            }
+        
+            const updateAccessList = () => {
+                let line;
+                document.getElementById("access-list").innerHTML = "";
+
+                for(let e of user){
+                    line = `<li> ${e}, ${orario[user.indexOf(e)]} </li>`;
+                    document.getElementById("access-list").innerHTML += line;
+                }
+                // set the innerHTML of the access-list to correct value
+            }
+
+          </script>
+        
+    </head>
+    <body>
+        <h1>19_01_2023.html</h1>
+
+        <p>
+            Username:
+            <input type="text" id="username">
+        </p>
+
+        <p>
+            Password:
+            <input type="password" id="password">
+        </p>
+
+        <br>
+        <button type="button" onclick="signup()">SIGNUP</button>
+        <button type="button" onclick="login()">LOGIN</button>
+        <button type="button" onclick="reset()">RESET</button>
+        <ul id="access-list">
+
+        </ul>
+    </body>
+</html>

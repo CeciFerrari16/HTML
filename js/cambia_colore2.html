@@ -1,0 +1,97 @@
+<!-- 
+    In una pagina HTML inserire 2 bottoni, uno con dentro scritto AGGIUNGI e uno con scritto CAMBIA COLORE.
+
+    Il bottone aggiungi dovrà inserire in fondo al body della pagina un nuovo paragrafo con scritto “SONO LE <orario attuale>” di colore nero.
+
+    Cambia colore dovrà invece cambiare il colore di TUTTI i paragrafi presenti nella pagina, rispettando quest’ordine: 
+    black => red => cyan => orange => purple => black
+
+    Aggiunta: 
+    Inserire un terzo bottone che chiede in input un indice X ed elimina l’X-esimo paragrafo dalla lista con relativo feedback (elemento eliminato correttamente, elemento non esistente)
+-->
+
+<html>
+    <head>
+        <script> 
+            const aggiungiParagrafo = () => {
+                const now = new Date()
+                const paragrafoHtml = `<p> Sono le ${now.getHours()}:${now.getMinutes()} </p>`
+                document.body.innerHTML += paragrafoHtml
+
+                /*
+                    Alternativa: assegnare un id="contenitore" al tag <body> (oppure creare lista <ul> con tanti <li>)
+                    
+                    document.getElementById("contenitore").innerHTML += paragrafoHtml
+                */
+            }
+
+            const cambiaColoreParagrafo = (paragrafo) => {
+                // N.B. quando un paragrafo viene creato il colore è pari ""
+                const colore = paragrafo.style.color 
+
+                let nuovoColore
+                switch(colore) { 
+                    case "":
+                        nuovoColore = "red"
+                        break
+
+                    case "black":
+                        nuovoColore = "red"
+                        break
+                    
+                    case "red":
+                        nuovoColore = "cyan"
+                        break
+
+                    case "cyan":
+                        nuovoColore = "orange"
+                        break
+
+                    case "orange":
+                        nuovoColore = "purple"
+                        break
+
+                    case "purple":
+                        nuovoColore = "black"
+                        break
+                }
+
+                paragrafo.style.color = nuovoColore 
+
+                /* 
+                    Alternative un po' più riutilizzabili... 
+
+                    const colori = ["black", "red", "cyan", "orange", "purple"]
+
+                    const indiceColoreAttuale = colori.findIndex((c) => colore === c) || 0
+                    const nuovoColore = colori[(indiceColoreAttuale+1) % colori.length]
+                
+                */
+
+            }
+
+            const cambiaColori = () => {
+                const paragrafi = document.getElementsByTagName("p")
+                for (let p of paragrafi) {
+                    cambiaColoreParagrafo(p)
+                }
+            }
+
+            const eliminaParagrafo = () => {
+                const paragrafi = document.getElementsByTagName("p")
+                const indice = +prompt("Inserisci indice paragrafo da eliminare")
+
+                if (indice < 0 || indice >= paragrafi.length) {
+                    alert("Attenzione: indice non valido")
+                } else {
+                    paragrafi[indice].remove()
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <button onclick="aggiungiParagrafo()"> Aggiungi paragrafo </button>
+        <button onclick="cambiaColori()"> Cambia colori </button>
+        <button onclick="eliminaParagrafo()"> Elimina </button>
+    </body>
+</html>

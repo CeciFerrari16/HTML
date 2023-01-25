@@ -1,0 +1,31 @@
+<html>
+    <body style = "background-color: green;">
+        <script>
+            let ritardo = 5000;
+
+            let timerId = setTimeout(function CambiaColore(){
+                let colour = document.body.style.backgroundColor;
+                switch(colour){
+                    case "red":
+                        colour = "green";
+                        ritardo = 5000;
+                        break;
+                    case "yellow":
+                        colour = "red";
+                        ritardo = 5000;
+                        //setTimeout(() => {document.body.style.backgroundColor = "red"}, 3000);
+                        break;
+                    case "green":
+                        colour = "yellow";
+                        ritardo = 2000;
+                        //document.body.style.backgroundColor = "yellow";
+                        
+                }
+                document.body.style.backgroundColor = colour;
+
+                timerId = setTimeout(CambiaColore, ritardo);
+            }, ritardo);
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,51 @@
+<HTML>
+	<HEAD>
+		<SCRIPT>
+            let data = new Date();
+            let colori = ["red", "cyan", "orange", "purple", "black"];
+
+            const aggiungiParagrafo = () => {
+                const paragrafoHtml = `<p> Sono le ${data.getHours()}:${data.getMinutes()} </p>`
+                document.body.innerHTML += paragrafoHtml;
+            }
+
+            const cambiaColoreParagrafo = (paragrafo) => {
+                // black => red => cyan => orange => purple => black
+                // const colore = paragrafo.style.color; N.B. quando un paragrafo viene creato il colore è pari ""
+                let index = colori.indexOf(paragrafo.style.color); // se "" allora index = -1
+
+                if(index == -1 || index == colori.length - 1){
+                    paragrafo.style.color = colori[0];
+                    index = 0;
+                }else if(index > -1 && index < colori.length){
+                    paragrafo.style.color = colori[index + 1];
+                }
+            }
+
+            const cambiaColori = () => {
+                // scorro la lista degli paragrafi con getElementByTag e per ogni elemento richiamo cambiaColoreParagrafo
+                const paragrafi = document.getElementsByTagName("p");
+                for(let p of paragrafi){
+                    cambiaColoreParagrafo(p);
+                }
+            }
+
+            const eliminaParagrafo = () => {
+                let n;
+                const par = document.getElementsByTagName("p"); // array di paragrafi, alert(typeof(par)) restituisce object
+                
+                do{
+                    n = Number(prompt("Quale paragrafo vuoi eliminiare?"));
+                }while(n < 0 || n >= par.length);
+                
+                par[n].remove();
+            }
+
+		</SCRIPT>
+	</HEAD>
+	<BODY>
+		<INPUT type = "BUTTON" value = "AGGIUNGI" onclick = "aggiungiParagrafo();" />
+        <INPUT type = "BUTTON" value = "CAMBIA COLORE" onclick = "cambiaColori();"/>
+        <INPUT type = "BUTTON" value = "ELIMINA" onclick = "eliminaParagrafo();"/>
+	</BODY>
+</HTML>

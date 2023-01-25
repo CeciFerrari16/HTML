@@ -1,0 +1,38 @@
+<html>
+    <script>
+        // Leggere una serie di valori da una casella di testo, contarli e calcolare la media.
+        let key;
+        let a = new Array;
+
+
+        function aggiungi(){
+            a.push(Number(document.getElementById("insert").value));
+            document.getElementById("conto").value = a.length;
+            //alert(a);
+            document.getElementById("insert").value = "";
+        }
+
+        function calcola(){
+            let somma = 0, media = 0;
+
+            for(let e of a){
+                somma += e;
+            }
+            media = somma/a.length;
+
+            alert(`somma : ${somma}`);
+            alert(`media : ${media}`);
+        }
+
+        
+    </script>
+    <body>
+        <h1>Calcolo la media dei valori inseriti</h1>
+        Inserisci: <input type = "text" id = "insert"/>
+        <br><br>
+        Numero valori inseriti: <input type = "number" id = "conto" />
+        <br><br>
+        <button type="button" onclick = "aggiungi()" >Aggiungi</button>
+        <button type="button" onclick = "calcola()">Calcola Media</button>
+    </body>
+</html>
