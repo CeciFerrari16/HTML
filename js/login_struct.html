@@ -1,0 +1,109 @@
+<html>
+    <head>
+        <script>
+            // declaring lists to store credentials
+            let credenziali = [];
+
+            const reset = () => {
+                document.getElementById("username").value = "";
+                document.getElementById("password").value = "";
+                document.getElementById("access-list").innerHTML = "";
+                credenziali = [];
+            }
+
+            const fixminutes = (min) => {
+                if(min < 10){
+                    min = "0"+String(min);
+                }
+                return min;
+            }
+
+            const signup = () => {
+                let bool = false;
+                let vname = document.getElementById("username").value;
+                let vpass = document.getElementById("password").value;
+
+                let dati = {
+                    "username" : vname,
+                    "password" : vpass,
+                    "accesso" : "Nessun accesso effettuato"
+                }
+
+                // check if the username is already registered (hint: use getUsernameIndex function)
+                for(let i = 0; i < credenziali.length; i++){
+                    if(credenziali[i]["username"] == vname){
+                        //alert("Credenziali già presenti");
+                        bool = true;
+                    }
+                }
+      
+                if(bool == false){
+                    credenziali.push(dati);
+                    alert("Registrazione avvenuta con successo");
+                    updateAccessList();
+                }else{
+                    alert("Credenziali già presenti");
+                }
+                //document.getElementById("username").value = "";
+                //document.getElementById("password").value = "";
+            }
+        
+            function login() {
+                let vname = document.getElementById("username").value;
+                let vpass = document.getElementById("password").value;
+                let bool = false;
+                let index;
+                let data = new Date;
+        
+                // check if the entered credentials match with the signup credentials
+                for(let i = 0; i < credenziali.length; i++){
+                    if(credenziali[i]["username"] == vname && credenziali[i]["password"] == vpass){
+                        bool = true;
+                        index = i;
+                    }
+                }
+
+                if(bool == true){
+                    alert("Login effettuato con successo");
+                    credenziali[index]["accesso"] = `${data.getHours()}:${fixminutes(data.getMinutes())}`;
+                    alert("Orario aggiornato");
+                    updateAccessList();
+                }else{
+                    alert("Login fallito");
+                }
+
+                document.getElementById("username").value = "";
+                document.getElementById("password").value = "";
+            }
+        
+            const updateAccessList = () => {
+                let line;
+                document.getElementById("access-list").innerHTML = "";
+
+                for(let e of credenziali){
+                    line = `<li> ${e["username"]}, ${e["accesso"]} </li>`;
+                    document.getElementById("access-list").innerHTML += line;
+                }
+            }
+
+          </script>
+        
+    </head>
+    <body>
+        <h1>Login :)</h1>
+        <p>
+            Username: <input type="text" id="username">
+        </p>
+        <p>
+            Password: <input type="password" id="password">
+        </p>
+
+        <br>
+        <button type="button" onclick="signup()">SIGNUP</button>
+        <button type="button" onclick="login()">LOGIN</button>
+        <button type="button" onclick="reset()">RESET</button>
+        <ul id="access-list">
+
+        </ul>
+    </body>
+</html>

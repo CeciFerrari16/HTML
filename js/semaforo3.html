@@ -1,0 +1,58 @@
+<html>
+    <style>
+        div{
+            height: 100px;
+            width: 100px;
+            border-radius: 50%;
+            background-color:#bbb;
+            /*display: inline-block;*/
+        }
+    </style>
+    <body>
+        <script>
+            let ritardo = 5000;
+            let count = 1;
+
+            let timerId = setTimeout(function CambiaColore(){
+                let id, idgrey;
+                let colour = document.getElementById("cir"+ count).style.backgroundColor;
+                count += 1;
+                //alert(count);
+                switch(colour){
+                    case "red":
+                        colour = "green";
+                        ritardo = 5000;
+                        break;
+                    case "yellow":
+                        colour = "red";
+                        ritardo = 5000;
+                        //setTimeout(() => {document.body.style.backgroundColor = "red"}, 3000);
+                        break;
+                    case "green":
+                        colour = "yellow";
+                        ritardo = 2000;
+                        break;
+                }
+                
+                if(count > 3){
+                    id = "cir1";
+                    idgrey = "cir3";
+                    count = 1;
+                }else{
+                    id = "cir"+ count;
+                    idgrey = "cir"+ (count - 1);
+                }
+
+                document.getElementById(id).style.backgroundColor = colour;
+                document.getElementById(idgrey).style.backgroundColor = "grey";
+
+                timerId = setTimeout(CambiaColore, ritardo);
+            }, ritardo);
+
+        </script>
+
+        <div id = "cir1" style = "background-color: green;"></div>
+        <div id = "cir2"></div>
+        <div id = "cir3"></div>
+    </body>
+</html>
