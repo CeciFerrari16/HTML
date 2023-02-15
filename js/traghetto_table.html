@@ -1,0 +1,56 @@
+<html>
+    <style>
+        table, td, th{border: 2px solid grey;
+			border-collapse:collapse}
+        td, th{padding: 5px 10px}
+        /*td{font-size:32px}*/
+    </style>
+    <script>
+        let prenotazioni = [];
+
+        function salva(){
+            let vnome = document.getElementById("nome_text").value;
+            let vcognome = document.getElementById("cognome_text").value;
+            let vtarga = document.getElementById("targa_text").value;
+            let vcodice = document.getElementById("codice_text").value;
+
+
+            let Datiprenotazioni = {
+                "nome": vnome,
+                "cognome":vcognome,
+                "targa":vtarga,
+                "codice":vcodice
+            };
+            prenotazioni.push(Datiprenotazioni);
+
+            document.getElementById("nome_text").value = "";
+            document.getElementById("cognome_text").value = "";
+            document.getElementById("targa_text").value = "";
+            document.getElementById("codice_text").value = "";
+        }
+
+        function visualizza(){
+            let line;
+            let t = document.getElementById("tblVisualizza");
+            t.innerHTML = "<TR><TH>Nome</TH><TH>Cognome</TH><TH>Targa</TH><TH>Codice</TH></TR>";
+            
+            for(let i = 0; i < prenotazioni.length; i++){
+                line = `<TR><TH>${prenotazioni[i].nome}</TH><TH>${prenotazioni[i].cognome}</TH><TH>${prenotazioni[i].targa}</TH><TH>${prenotazioni[i].codice}</TH></TR>`;
+                t.innerHTML += line;
+            }
+        }
+    </script>
+    <body>
+        <h1>Visita la Grecia // Traghetti disponibili</h1>
+        <fieldset>
+        Nome: <input type = "text" id = "nome_text" placeholder="nome"/><BR><BR>
+        Cognome: <input type = "text" id = "cognome_text" placeholder="cognome"/><BR><BR>
+        Targa: <input type = "text" id = "targa_text" placeholder="targa"/><BR><BR>
+        Codice: <input type = "number" id = "codice_text" placeholder="codice"/><BR><BR>
+        <table id = "tblVisualizza"> </table>
+        </fieldset><BR>
+
+        <button type = "button" onclick = "visualizza()">Visualizza</button>
+        <button type = "button" onclick = "salva()">Inserisci</button>
+    </body>
+</html>
