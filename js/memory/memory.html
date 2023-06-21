@@ -1,0 +1,100 @@
+<html>
+    <head>
+        <style>
+            #div1,#div2,#div3,#div4{
+                background-color:rgb(167, 161, 228);
+                width: 125px;
+                height: 125px;
+                border: 1px solid black;
+            }
+            div{
+                background-color:rgb(167, 161, 228);
+                width: 125px;
+                height: 125px;
+                border: 1px solid black;
+                float:left;
+            }
+            img{
+                width: 125px;
+                height: 125px;
+            }
+        </style>
+        <script>
+            const N = 4;
+            let images = [1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8];
+            let click = 0, uncovered = [], attempts = 0, score = 0;
+
+            function display(){
+				let posizioneCasuale, tmp;
+                for(let k=0; k < images.length; k++) { 
+                    posizioneCasuale = Math.floor(Math.random() * k);  
+                    // scambia a[k] con a[posizioneCasuale] 
+                    tmp = images[k]; 
+                    images[k] = images[posizioneCasuale]; 
+                    images[posizioneCasuale] = tmp;
+                }
+            }
+
+            function check_point(array){
+                attempts++;
+                let img1 = document.getElementById(array[0]);
+                let img2 = document.getElementById(array[1]);
+                if(img1.src == img2.src){
+                    //alert("Pair found!!");
+                    score++;
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+
+            function uncover(name){
+                let img = document.getElementById("i_"+name);
+                let div_n = document.getElementById("div"+name);
+                //alert(typeof(img.style.visibility));
+                if(img.style.visibility == "hidden"  || img.style.display === "none"){
+                    img.style.visibility = "visible";
+                    uncovered.push("i_"+name);
+                    click++;
+                }
+
+                if(click == 2){
+                    setTimeout(function(){
+                        ans = check_point(uncovered);
+                        if(ans == false){
+                            for(let e of uncovered){
+                                document.getElementById(e).style.visibility = "hidden";
+                            }
+                        }
+                        click = 0; //here
+                        uncovered = [];
+                    }, 500);
+                }
+            }
+            
+            function AddBlocks(){
+                display();
+                let count = images.length - 1, fun;
+
+                for(let i = 1; i <= N; i++){
+                    for(let j = 1; j <= N; j++){
+                        fun = `uncover("${i}.${j}");`
+                        document.getElementById("div"+ i).innerHTML += `<div id = "div${i}.${j}" onclick = ${fun}>
+                            <img id = "i_${i}.${j}" src="img${images[count]}.jpg" style = "visibility: hidden;"> </div>`;
+                        count--;
+                    }
+                }
+            }
+        </script>
+    </head>
+    <body onload="AddBlocks();">
+        <div id = "div1">
+        </div>
+        <div id = "div2">
+        </div>
+        <div id = "div3">
+        </div>
+        <div id = "div4">
+        </div>
+    </body>
+</html>

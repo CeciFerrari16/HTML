@@ -1,0 +1,493 @@
+<!--sito per il font: https://fontmeme.com/script-fonts/
+    sito per le icone: https://icons8.com/icons/set/reload -->
+<html>
+    <head>
+    <style>
+        body{
+            background-image: url("marmo.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .interno{
+            width: 67.5px;
+            height: 67.5px;
+            border: solid 1px rgb(0, 0, 0);
+            display: inline-block;
+            box-sizing: border-box; /*width and height non si possono modificare :)*/
+            border-radius: 10px;
+        }
+        .neri{
+            background-color: black; 
+        }
+        .bianchi{
+            background-color: white;
+        }
+        .pedina{
+            width: 70%;
+            height: 70%;
+            border: solid 0px rgb(0, 0, 0);
+            border-radius: 50%;
+            margin: 0 auto;
+            position: relative;
+            top: 10px;
+        }
+        .punto{
+            width: 13px;
+            height: 13px;
+            border: solid 1px;
+            border-radius: 50%;
+            margin-right: 2px;
+            margin-bottom: 2px;
+            display: inline-block;
+            padding: 5px;
+        }
+        .damone1{ 
+            background-color:#c14297;
+        }
+        .damone2{
+            background-color: #258693;
+        }
+        .colore1{
+            background-color: #ED5485;
+        }
+        .colore2{ 
+            background-color: #57D1C9;
+        }
+		mark{
+            font-size: 110%;
+			color: white;
+            margin: 10px;
+            display: inline-block;
+		}
+        .icona{
+            width: 20px;
+            height: 20px;
+        }
+        #reload,#confirm{
+            background-color: white;
+            border-radius: 5px;
+        }
+        #themes{
+            position: relative;
+            bottom: 2px;
+        }
+        #container{
+            display: flex;
+            justify-content: center;
+            align-items:flex-start;
+        }
+        #griglia{
+            max-width: 540px;
+            max-height: 540px;
+            display: inline-block;
+            border-radius: 10px;
+            margin-right: 30px;
+            margin-left: 30px;
+        }
+        #titolo{
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 10px;
+            max-width: 50%;
+            height: auto;   
+        }
+        #titoloTurno{
+            text-align: center;
+        }
+        #regole{
+            max-width: 240px;
+            display: inline-block;
+            vertical-align: top;
+            border: solid 5px #FFE869;
+            background-color: #FFFBCB;
+            border-radius: 10px;
+            padding: 10px;
+        }
+        #table{
+            max-width: 220px;
+            display: inline-block;
+            text-align: center;
+            vertical-align: top;
+            border: solid 5px #FFE869;
+            background-color: #FFFBCB;
+            border-radius: 10px;
+            padding: 10px;
+        }
+        #punti1,#punti2{
+            max-width: 162px;
+            border: solid 0px;
+            text-align: start;
+            margin: 0 auto;
+            padding: 5px;
+        }
+    </style>
+    <script>
+        let coordinate = [], captured1 = 0, captured2 = 0, prec_turno = 0; //prec_turno -> turno precedente!
+		let colore1 = "#ED5485", colore2 = "#57D1C9", damone1 = "#c14297", damone2 = "#258693";
+        const NUM_ROWS = 8, NUM_COLS = 8, TOT = 12;
+
+        function checkVuota(id){ //controllare se una certo div è vuoto dato l'id
+			const pos = document.getElementById(id);
+			if(pos.innerHTML != ""){
+				return false;
+			}else{
+				return true;
+			}
+		}
+
+        function vittoria(n_player, colore){
+            document.body.setAttribute("background-color", colore);
+            document.body.innerHTML = `<h1 style = "color: white; text-align: center;"> IL PLAYER ${n_player} HA VINTO!</h1>
+                <div style="width:100%"><div style="height:0;padding-bottom:56.25%;position:relative;width:100%"><iframe allowfullscreen="" frameBorder="0" height="100%" 
+                src="https://giphy.com/embed/Atx1IgqtSq7B5MB3BN/video" style="left:0;position:absolute;top:0" width="100%"></iframe></div></div>`;
+			return 0;
+        }
+		
+		function applica(classe, colore){
+			const boxes = document.getElementsByClassName(classe);
+			for(const box of boxes){
+				box.setAttribute("style", `background-color: ${colore}`);
+			}
+		}
+		
+		function cambioTema(){
+			const tema = document.getElementById("themes").value; //tema selezionato nel menù dropdown
+            const table = document.getElementById("table"), rules = document.getElementById("regole");
+            const img = document.getElementById("titolo");
+			
+			switch(tema){
+                case "reset":
+					colore1 = "#ED5485";
+					colore2 = "#57D1C9";
+					damone1 = "#c14297";
+					damone2 = "#258693"; 
+                    table.setAttribute("style", "border-color: #FFE869; background-color: #FFFBCB;");
+                    rules.setAttribute("style", "border-color: #FFE869; background-color: #FFFBCB;");
+                    img.setAttribute("src", "marshmallow.png");
+					break;
+				case "tulipanoso":
+					colore1 = "#9068be";
+					colore2 = "#FFDE00";
+					damone1 = "#7200da";
+					damone2 = "#ffbf00";
+                    table.setAttribute("style", "border-color: #74c239; background-color: #c4e484;");
+                    rules.setAttribute("style", "border-color: #74c239; background-color: #c4e484;");
+                    img.setAttribute("src", "tulipanoso.png");
+					break;
+                case "plumcake":
+					colore1 = "#B94629";
+					colore2 = "#47AFAF";
+					damone1 = "#8e3722"; 
+					damone2 = "#245a63"; //"#398490"
+                    table.setAttribute("style", "border-color: #b8b18c; background-color: #E3DEC1;");
+                    rules.setAttribute("style", "border-color: #b8b18c; background-color: #E3DEC1;");
+                    img.setAttribute("src", "plumcake.png");
+					break;
+                case "lunapark":
+					colore1 = "#2b90d9";
+					colore2 = "#F1433F";
+					damone1 = "#236492";
+					damone2 = "#a53331";
+                    table.setAttribute("style", "border-color: #A199E9; background-color: #cac4ff;");
+                    rules.setAttribute("style", "border-color: #A199E9; background-color: #cac4ff;");
+                    img.setAttribute("src", "lunapark.png");
+			}
+			applica("colore1", colore1);
+			applica("colore2", colore2);
+			applica("damone1", damone1);
+			applica("damone2", damone2);
+			document.getElementById(`turno${prec_turno}`).setAttribute("style", `background-color: transparent; color: black`); //in modo da avere il turno segnato correttamente
+		}
+
+        function aggiornaTurno(){ //viene chiamata quando il turno del player attuale è finito
+            if(captured1 == TOT){ //controllo per la vittoria
+                vittoria(2, colore2);
+            }else if(captured2 == TOT){
+                vittoria(1, colore1);
+            }
+
+			if(prec_turno == 0){ //situazione iniziale dove il primo turno è sempre del player 1 (quindi il turno precedente del player 2)
+				document.getElementById(`turno2`).setAttribute("style", `background-color: transparent; color: black`);
+				prec_turno = 2;
+			}else if(prec_turno == 2){ //il turno del player 1 è finito, è il turno del player 2
+				document.getElementById(`turno${prec_turno}`).setAttribute("style", `background-color: ${colore2}; color: white`);
+				prec_turno = 1;
+				document.getElementById(`turno${prec_turno}`).setAttribute("style", `background-color: transparent; color: black`);
+			}else{ //il turno del player 2 è finito, è il turno del player 1
+                document.getElementById(`turno${prec_turno}`).setAttribute("style", `background-color: ${colore1}; color: white`);
+				prec_turno = 2;
+				document.getElementById(`turno${prec_turno}`).setAttribute("style", `background-color: transparent; color: black`);
+			}
+        }
+		
+		function casiPossibili(row, col){ //casi di spostamento in diagonale in base alla pedina
+            const ped = document.getElementById(`c${row}.${col}`).getElementsByTagName("div")[0];
+            if(ped.classList.contains("damone1") || ped.classList.contains("damone2")){ //per il damone
+                return [[row-1, col+1],[row-1, col-1],[row+1, col+1],[row+1, col-1]];
+            }else if(ped.classList.contains("colore1")){ //per la pedina
+				return [[row-1, col+1],[row-1, col-1]];
+			}else if(ped.classList.contains("colore2")){
+				return [[row+1, col+1],[row+1, col-1]];
+			}
+		}
+
+        function sposta(prcasella, row, col){
+            const casella = document.getElementById(`c${row}.${col}`);
+            casella.innerHTML = prcasella.innerHTML; //la pedina della casella precedente (quindi suo contenuto) viene spostata (copiata) in quella scelta
+            prcasella.innerHTML = "";
+            prcasella.setAttribute("style", `background-color: white;`); //deselezionamento
+            coordinate = [];
+
+            //controllo se la pedina diventa damone quando arriva agli estremi della scacchiera
+            const ped = casella.getElementsByTagName("div")[0];
+            if(ped.classList.contains("colore1") && row == 0){
+                ped.classList.add("damone1");
+                ped.classList.remove("colore1"); 
+                ped.setAttribute("style", `background-color: ${damone1}`); //se no il damone rimane dello stesso colore
+            }else if(ped.classList.contains("colore2") && row == 7){
+                ped.classList.add("damone2");
+                ped.classList.remove("colore2");
+                ped.setAttribute("style", `background-color: ${damone2}`);
+            }
+        }
+
+        function casiMangia(row, col){ //solo coordinate attuali
+            const ped = document.getElementById(`c${row}.${col}`).getElementsByTagName("div")[0]; //pedina attuale
+			let mangiata = [];
+			if(ped != undefined){
+				let check_ped, s_row, s_col, n_player;
+				let cas = casiPossibili(row, col);
+				
+				if(ped.classList.contains("colore1") || ped.classList.contains("damone1")){ 
+					n_player = 1;
+				}else{
+					n_player = 2;
+				}
+				
+				for(let e of cas){ //per tutti i casi possibili controllo se esiste una casella successiva in diagonale e se la possibile pedina media è avversaria (check_ped)
+					s_row = 2*e[0] - row, s_col = 2*e[1] - col; //coord. casella successiva! calcolata utilizzando la formula inversa del punto medio
+					if(s_row > -1 && s_row < 8 && s_col > -1 && s_col < 8){
+						check_ped = document.getElementById(`c${e[0]}.${e[1]}`).getElementsByTagName("div")[0]; //pedina media
+						if(check_ped != undefined && checkVuota(`c${s_row}.${s_col}`)){ //controllo se esiste e se quella dopo è vuota
+							if((ped.classList.contains("colore" + n_player) && check_ped.classList.contains("colore" + n_player) == false && check_ped.classList.contains("damone1") == false && check_ped.classList.contains("damone2") == false)
+							|| (ped.classList.contains("damone" + n_player) && check_ped.classList.contains("damone" + n_player) == false && check_ped.classList.contains("colore" + n_player) == false)){
+								mangiata.push([s_row,s_col]); 
+							}
+						}
+					}
+				}
+			}
+            return mangiata;
+        }
+
+        function doppiaMangiata(row, col){ 
+            let mangiata = casiMangia(row, col), ans;
+            if(mangiata.length == 1){ //caso particolare, mangiata obbligatoria con una sola e unica scelta
+                mangia(row, col, mangiata[0][0], mangiata[0][1]);
+            }else if(mangiata.length != 0){ //più possibilità di mangiata
+                for(let i=0; i < mangiata.length; i++){
+                    if((i + 1) == (mangiata.length)){ //se è l'ultimo elemento della lista, sussiste la mangiata obbligatoria
+                        mangia(row, col, mangiata[i][0], mangiata[i][1]);
+                        return 0;
+                    }
+                    //viene chiesto all'utente se intende spostare la pedina in una determinata casella, poichè ci sono più scelte
+                    ans = confirm(`Doppio: spostarsi nella casella ${mangiata[i][0]+1}.${mangiata[i][1]+1}?`);
+                    if(ans){  //se la risposta è affermativa avviene la mangiata
+                        mangia(row, col, mangiata[i][0], mangiata[i][1]);
+                        return 0;
+                    }
+                }
+            }else{
+                aggiornaTurno(); //non è possibile una doppia mangiata
+            }
+        }
+
+        function AddPoints(n_player, colore){
+            const contenitore = document.getElementById(`punti${n_player}`);
+            let punto = document.createElement("div");
+            punto.setAttribute("class", `punto colore${n_player}`);
+            punto.setAttribute("style", `background-color: ${colore}`);
+            contenitore.appendChild(punto);
+        }
+
+        function mangia(prow, pcol, row, col){
+            let prcasella = document.getElementById(`c${prow}.${pcol}`);
+			let ped = prcasella.getElementsByTagName("div")[0];
+            let cas_media = document.getElementById(`c${(row+prow)/2}.${(col+pcol)/2}`);
+
+			if(ped.classList.contains("colore1") || ped.classList.contains("damone1")){
+				captured2 +=1; //aumenta il numero di pedine catturate del colore avversario
+                AddPoints(2, colore2);
+			}else{
+				captured1 +=1;
+                AddPoints(1, colore1);
+			}   
+			cas_media.innerHTML = ""; //svuoto la casella della pedina mangiata
+			sposta(prcasella, row, col); //e mi sposto
+            doppiaMangiata(row, col); //controllo se è possibile una doppia mangiata
+        }
+
+        function selected(row, col){ //coordianate della casella su cui ho appena cliccato
+			const casella = document.getElementById(`c${row}.${col}`);
+            
+			if(checkVuota(`c${row}.${col}`)){
+				if(coordinate.length != 0){ //hai già selezionato una casella -> intenzione di spostamento
+					const prow = coordinate[0], pcol = coordinate[1]; //coordinate della casella selezionata in precedenza
+					const prcasella = document.getElementById(`c${prow}.${pcol}`);
+					let cas = casiPossibili(prow, pcol); //calcolare le caselle possibili di spostamento
+					let mangiata = casiMangia(prow, pcol); // ...per mangiare
+                    
+                    if(mangiata.length == 0){ //se non puoi mangiare allora controlla se puoi spostarti
+                        for(let e of cas){
+                            if(row == e[0] && col == e[1]){
+                                sposta(prcasella, row, col);
+                                aggiornaTurno();
+                                return 0;
+                            }
+                        }
+                    }else{
+                        for(let e of mangiata){ //mangiata obbligatoria
+                            if(row == e[0] && col == e[1]){
+                                mangia(prow, pcol, row, col);
+                                return 0;
+                            }
+                        }
+                    }
+                }	
+			}else{ //è piena
+                const ped = casella.getElementsByTagName("div")[0];
+                if(ped.classList.contains("colore" + prec_turno) == false && ped.classList.contains("damone" + prec_turno) == false){ //se è una pedina che può muoversi al turno attuale
+                    if(coordinate.length == 0){
+                        casella.setAttribute("style", `background-color: yellow;`);
+                        coordinate.push(row);//aggiunta la sua posizione nell'array "coordinate" come casella selezionata
+                        coordinate.push(col);
+                    }else{
+                        const prow = coordinate[0], pcol = coordinate[1];
+                        const prcasella = document.getElementById(`c${prow}.${pcol}`);
+                        const prec_ped = prcasella.getElementsByTagName("div")[0]; //pedina nella casella selezionata precedentemente
+                        if(row == prow && col == pcol){ //deselezionamento della casella precedentemente selezionata
+                            prcasella.setAttribute("style", `background-color: white`);
+                            coordinate = [];
+                        }else if((prec_ped.classList.contains("colore1") === ped.classList.contains("colore1")) || (prec_ped.classList.contains("damone2") === ped.classList.contains("damone2"))){
+                            //i colori nella funzione si esculdono, quindi una sola espressione permette di controllare entrambi i casi (colore1, colore2)
+                            prcasella.setAttribute("style", `background-color: white`);
+                            coordinate = [];
+                            casella.setAttribute("style", `background-color: yellow`);
+                            coordinate.push(row);
+                            coordinate.push(col);
+                        }
+                    }
+                }
+			}
+        }
+
+        function AddRules(){
+            const regole = document.getElementById("regole");
+            regole.innerHTML = `Una pedina raggiunge la sponda opposta della scacchiera, diventa "dama".<ul>
+                    <li>La dama può muoversi in avanti e all'indietro, ma solo di una casella alla volta.</li>
+                    <li>La dama può mangiare le pedine avversarie saltando sopra di esse. Se dopo la mangiata la dama può continuare a mangiare, deve farlo.</li>
+                    <li>Contrariamente alle pedine, le dame possono muovere sia all'avanti che all'indietro.</li>
+                    <li>Le dame possono mangiare sia altre dame che pedine, le pedine possono mangiare solo pedine e non dame.</li>
+                </ul>La partita termina quando sussiste la seguente condizione:<ul>
+                    <li>Uno dei due giocatori resta senza pezzi (sono stati tutti mangiati).</li>
+                </ul>`;
+        }
+
+        function highlight(row, col, style, width){ //evidenzia le caselle dove è possibile spostarsi (o poter mangiare) tratteggiandole!
+            const casella = document.getElementById(`c${row}.${col}`);
+            if(checkVuota(`c${row}.${col}`) == false){ //la casella su cui si è deve contenere una pedina
+                const ped = casella.getElementsByTagName("div")[0];
+                if(ped.classList.contains("colore" + prec_turno) == false && ped.classList.contains("damone" + prec_turno) == false){ //solo pedine del turno corretto
+					let mangiata = casiMangia(row, col);
+					let cas = casiPossibili(row, col);
+					if(mangiata.length == 0){
+						for(let e of cas){ 
+							if((e[0] > -1 && e[0] < 8 && e[1] > -1 && e[1] < 8) && (checkVuota(`c${e[0]}.${e[1]}`))){
+								document.getElementById(`c${e[0]}.${e[1]}`).setAttribute("style", `border-style: ${style}; border-width: ${width};`);
+							}
+						}
+					}else{ //se puoi mangiare
+						for(let e of mangiata){
+							document.getElementById(`c${e[0]}.${e[1]}`).setAttribute("style", `border-style: ${style}; border-width: ${width};`);
+						}
+					}
+                    
+                }
+            }
+        }
+        
+        const reset = (mouse) => {
+            const img = document.getElementById("reload").getElementsByTagName("img")[0];
+            if(mouse){
+                img.setAttribute("src", "refresh.gif");
+            }else{
+                img.setAttribute("src", "refresh.png");
+            }  
+        }
+
+        function AddBlocks(){ //struttura la scacchiera e la dama
+            const contenitore = document.getElementById("griglia");
+            const reload_button = document.getElementById("reload");
+            const confirm_button = document.getElementById("confirm");
+            let casella, colore, pedina;
+            
+            AddRules();
+			aggiornaTurno();
+            confirm_button.setAttribute("onclick", "cambioTema();");
+            reload_button.setAttribute("onmouseover", "reset(true);");
+            reload_button.setAttribute("onmouseout", "reset(false);");
+            reload_button.setAttribute("onclick", "location.reload();");
+
+            for(let row=0; row<NUM_ROWS; row++){
+                for(let col=0; col<NUM_COLS; col++){
+                    let determinante_colore = row+col;
+                    if (determinante_colore%2 == 0){
+                        colore = "neri";
+                    }else{
+                        colore = "bianchi";
+                    }
+                    casella = document.createElement("div");
+                    casella.setAttribute("class", `interno ${colore}`);
+                    casella.setAttribute("id", `c${row}.${col}`);
+                    casella.setAttribute("onclick", `selected(${row},${col});`);
+                    casella.setAttribute("onmouseover", `highlight(${row},${col}, "dashed", "3px");`);
+                    casella.setAttribute("onmouseout", `highlight(${row},${col}, "solid", "1px");`); //le caselle tratteggiate ritornano normali
+                    contenitore.appendChild(casella);
+
+                    if(colore == "bianchi" && row < 3){
+                        pedina = document.createElement("div");
+                        pedina.setAttribute("class", `pedina colore2`);
+                        casella.appendChild(pedina);
+                    }else if(colore == "bianchi" && row > 4){
+                        pedina = document.createElement("div");
+                        pedina.setAttribute("class", `pedina colore1`);
+                        casella.appendChild(pedina);
+                    }
+                }  
+            }
+		}
+    </script>
+    </head>
+    <body onload="AddBlocks();">
+    <img id="titolo" src="marshmallow.png"></img>
+    <div id="container">
+        <div id = "regole"></div>
+        <div id = "griglia"></div>
+        <div id = "table">
+            <h1 id="titoloTurno">Turno</h1>
+            <mark id = "turno1" class = "colore1">Player 1</mark>
+            <mark id = "turno2" class = "colore2">Player 2</mark>
+            <div id="punti1"></div>
+            <div id="punti2"></div>
+            <select id="themes">
+                <option value="reset">Marshmallow</option>
+                <option value="tulipanoso">Tulipanoso</option>
+                <option value="plumcake">Plumcake</option>
+                <option value="lunapark">Lunapark</option>
+            </select>
+            <button id ="confirm"><img src="confirm.png" class="icona"></img></button>
+            <button id ="reload"><img src="refresh.png" class="icona"></img></button>
+        </div>
+    </div>
+    </body>
+</html>
